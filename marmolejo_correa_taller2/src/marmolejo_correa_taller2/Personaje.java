@@ -34,7 +34,8 @@ public class Personaje {
 		if(derecha ==true) {pos.x= pos.x+vel.x;}
 		if(izquierda ==true) {pos.x=pos.x-vel.x;}
 		//if(diagonal1==true) {pos.y=pos.y-vel.y; pos.x=pos.x-vel.x; }
-		
+		app.stroke(147,182,53);
+		app.noFill();
 		
 	}
 	public void mover() {

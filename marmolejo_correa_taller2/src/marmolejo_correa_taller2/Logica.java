@@ -1,20 +1,29 @@
 package marmolejo_correa_taller2;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
 import processing.core.PApplet;
 import processing.core.PImage;
+import processing.core.PVector;
 
 public class Logica {
 	int pantalla = 0;
 	private PApplet app;
+	private PVector pos;
 	
-	private PImage play,play2,Media,BarraGorra, BarraMedia, BarraVeneno, Cafe,fondo,Ganaste,Gorra,inicio,instrucciones,Mike,Perdiste,Recurso,Reloj,score,Sully,Veneno;
+	private PImage play,play2,Media,barraCafe,barraGorra, barraMedia, barraVeneno, Cafe,fondo,Ganaste,Gorra,inicio,instrucciones,Mike,Perdiste,Recurso,Reloj,score,Sully,Veneno;
 	private Personaje per;
+	private Enemigo ene;
+	private ArrayList<Objeto> objetos;
 	
 	public Logica (PApplet app) {
 		this.app = app;
-		BarraGorra = app.loadImage("BarraGorra.png");
-		BarraMedia = app.loadImage("BarraMedia.png");
-		BarraVeneno = app.loadImage("BarraVeneno.png");
+		
+	
+		barraCafe = app.loadImage("BarraCafe.png");
+		barraGorra = app.loadImage("BarraGorra.png");
+		barraMedia = app.loadImage("BarraMedia.png");
+		barraVeneno = app.loadImage("BarraVeneno.png");
 		Cafe = app.loadImage("Cafe.png");
 		fondo = app.loadImage("fondo.png");
 		Ganaste = app.loadImage("Ganaste.png");
@@ -33,6 +42,11 @@ public class Logica {
 		play2 = app.loadImage("play2.png");
 		
 		per = new Personaje(app);
+		ene= new Enemigo (app ,this);
+		objetos = new ArrayList<Objeto>();
+		
+		
+		
 		
 		
 	}
@@ -66,7 +80,15 @@ public class Logica {
 		
 		case 2:
 			app.image(fondo, 0, 0);
+			app.image(barraGorra, 638, 11);
+			app.image(barraMedia, 335,11);
+			app.image(barraVeneno, 46,11);
+			app.image(barraCafe,903,11);
 			per.pintar();
+			ene.pintar();
+			if(ene.getState().name().equals("NEW")) {
+				ene.start();
+			}
 		break;
 		}
 	}
@@ -92,6 +114,8 @@ public class Logica {
 	}
 	
 	
+	
+	
 	public void teclear() {
 		switch(pantalla) {
 		case 2:
@@ -106,5 +130,12 @@ public class Logica {
 			per.soltar();
 			break;
 		}
+	}
+	
+	public Personaje getPer() {
+		return per;
+		}
+	public Enemigo getEne() {
+		return ene;
 	}
 }
