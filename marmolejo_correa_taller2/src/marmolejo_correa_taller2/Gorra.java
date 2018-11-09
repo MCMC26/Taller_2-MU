@@ -5,9 +5,11 @@ import processing.core.PVector;
 
 public class Gorra extends Objeto{
 	
-	
-	public Gorra(PApplet app, PVector pos) {
-		super(app,pos);
+	public Gorra(PApplet app) {
+		super(app);
+		Aleatorio1  = app.random(100,1000);
+		Aleatorio2  = app.random(100,600);
+		pos = new PVector(Aleatorio1,Aleatorio2);
 		// TODO Auto-generated constructor stub
 	}
 	
