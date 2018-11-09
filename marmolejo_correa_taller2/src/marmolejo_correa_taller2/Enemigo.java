@@ -21,7 +21,7 @@ public class Enemigo extends Thread {
 		this.app = app;
 		this.log = log;
 		pos = new PVector(app.random(0, app.width / 2), app.random(0, app.height / 2));
-		vel = new PVector(0, 0);
+		vel = new PVector(2, 2);
 		Sully = app.loadImage("Sully.png");
 		vivo = true;
 	}
@@ -33,7 +33,7 @@ public class Enemigo extends Thread {
 			// vivo = false;
 			// }else {
 			try {
-				sleep(60);
+				sleep(20);
 				mover();
 
 			} catch (InterruptedException e) {
@@ -56,32 +56,52 @@ public class Enemigo extends Thread {
 	public void mover() {
 
 		for (int i = 0; i < log.getObs().size(); i++) {
-
-			if (log.getObs().get(i) instanceof Tanque) {
-				if (PApplet.dist(pos.x, pos.y, log.getObs().get(i).getPos().x, log.getObs().get(i).getPos().y) < PApplet
-						.dist(pos.x, pos.y, log.getPer().getPos().x, log.getPer().getPos().x)) {
-					vel = PVector.sub(log.getObs().get(i).getPos(), pos);
+//Si Mike tiene más puntos que el enemigo entonces...
+			if(log.getPer().getcontadorM() > contadorS) {
+				//Si mike esta a menos de 300 pixeles, los enemigos huyen 
+				if ((PApplet.dist(pos.x, pos.y, log.getPer().getPos().x, log.getPer().getPos().y) < 200)) {
+					vel = PVector.sub(log.getPer().getPos(), pos);
+					vel.rotate(180);
+				//	vel.mult(2);
 					vel.normalize();
-					vel.mult(app.random(2, 3)); 
+					pos.add(vel);
+				//Si no se cumple lo anterior entonces los enemigos irán por los tanques que vean
+			}else if (log.getPer().getcontadorM() > contadorS && log.getObs().get(i) instanceof Tanque) {
+					vel = PVector.sub(log.getObs().get(i).getPos(), pos);
+				//	vel.mult(2);
+					vel.normalize();
 					pos.add(vel);
 
+				} 
+			
+			}
+			
+			//Si mike no tiene mas puntos que el enemigo entonces...
+			
+			else if (log.getObs().get(i) instanceof Tanque) {
+				//Si la distancia entre el objeto es menor que la distancia a mike entonces...
+				if (PApplet.dist(pos.x, pos.y, log.getObs().get(i).getPos().x, log.getObs().get(i).getPos().y) < PApplet
+						.dist(pos.x, pos.y, log.getPer().getPos().x, log.getPer().getPos().x)) {
+					//Vaya hacia el objeto que da puntos (Tanque)
+					vel = PVector.sub(log.getObs().get(i).getPos(), pos);
+					vel.normalize();
+				//	vel.mult(2);
+					pos.add(vel);
+					//Sino...
 				} else {
+					//Vaya a por Mike
 					vel = PVector.sub(log.getPer().getPos(), pos);
 					vel.normalize();
-					vel.mult(app.random(2, 3));
+					//vel.mult(2);
 					pos.add(vel);
 
 				}
-			} else {
-				vel = PVector.sub(log.getPer().getPos(), pos);
-				vel.normalize();
-				vel.mult(app.random(2, 3));
-				pos.add(vel);
+			} 
 			}
 
 		}
 
-	}
+	
 
 	public void validarChoque() {
 
@@ -95,7 +115,27 @@ public class Enemigo extends Thread {
 				if (o instanceof Tanque) {
 					// Lo que pasa cuando agarre el tanque, y asi mismo con los demas
 					contadorS++;
+					log.conTankMundo--;
 					System.out.println("JOJOJO");
+				}
+				
+				if (o instanceof Calcetin) {
+
+					
+					vel= new PVector(0,0);
+				//	detenido = true;
+				//contador = app.frameCount;
+					
+					log.conMediaMundo--;
+			}
+				if (o instanceof Taza) {
+					vel.mult(2);
+					log.conCafeMundo--;
+
+				}
+				if (o instanceof Erizo) {
+					vel.mult(0.5f);
+					log.conVenenoMundo--;
 				}
 				objetos.remove(o);
 			}

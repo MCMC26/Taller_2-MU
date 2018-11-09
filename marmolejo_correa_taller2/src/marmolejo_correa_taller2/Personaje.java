@@ -14,15 +14,20 @@ public class Personaje extends Thread {
 	private PVector neu;
 	private PVector desace;
 	private int tam;
+	private int contadorPower;
 	private PVector vel;
 	private int contadorM;
+	private int contador;
 	private PImage Mike;
 	private boolean vivo;
 	private boolean soltar = true;
+	private boolean detenido,acelerado,ralentizado = false;
 	private boolean arriba, abajo, izquierda, derecha, diagonal1 = false;
+	private Logica log;
 
-	public Personaje(PApplet app) {
+	public Personaje(PApplet app, Logica log) {
 		this.app = app;
+		this.log = log;
 		Mike = app.loadImage("Mike.png");
 		desace = new PVector(-2, -2);
 		neu = new PVector(-3, -3);
@@ -50,6 +55,24 @@ public class Personaje extends Thread {
 				if (izquierda == true) {
 					pos.x = pos.x - vel.x;
 				}
+				
+				
+			/*	if(detenido ==true &&app.frameCount%180==0) {
+					detenido = false;
+					vel = new PVector(3,3);
+				}*/
+				if(detenido ==true && app.frameCount > contador + 180) {
+					detenido = false;
+					vel = new PVector(3,3);
+				}
+				if(acelerado ==true && app.frameCount > contador + 180) {
+					acelerado = false;
+					vel = new PVector(3,3);
+				}
+				if(ralentizado ==true && app.frameCount > contador + 180) {
+					ralentizado = false;
+					vel = new PVector(3,3);
+				}
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -69,6 +92,31 @@ public class Personaje extends Thread {
 		app.fill(147, 182, 53);
 		app.textSize(20);
 		app.text(contadorM, pos.x + 95, pos.y - 2);
+		
+		if(detenido == true && app.frameCount < contador+180) {
+			app.fill(240, 203, 53);
+			app.noStroke();
+			app.rect(336, 16,  190+(app.frameCount -contador)*(-1), 35,15);
+			app.fill(255);
+			app.textSize(32);
+			app.text("PARALIZADO", 420, 30);
+		}
+		if(acelerado == true && app.frameCount < contador+180) {
+			app.fill(72, 206, 67);
+			app.noStroke();
+			app.rect(905, 16, 180+(app.frameCount -contador)*(-1), 35,15);
+			app.fill(255);
+			app.textSize(32);
+			app.text("ACELERADO", 990, 30);
+		}
+		if(ralentizado == true && app.frameCount < contador+180) {
+			app.fill(219, 75, 217);
+			app.noStroke();
+			app.rect(47, 16,  180+(app.frameCount -contador)*(-1), 35,15);
+			app.fill(255);
+			app.textSize(32);
+			app.text("RALENTIZADO", 135, 30);
+		}
 	}
 
 	public void mover() {
@@ -128,24 +176,30 @@ public class Personaje extends Thread {
 				if (o instanceof Tanque) {
 					// Lo que pasa cuando agarre el tanque, y asi mismo con los demas
 					contadorM++;
+					log.conTankMundo--;
 					System.out.println("JIJIJI");
 				}
 				if (o instanceof Calcetin) {
 
-						app.fill(255, 0, 0);
-						app.rect(506, 50, -170, -30);
-						vel.add(neu);
-
-					
-
+						
+						vel= new PVector(0,0);
+						detenido = true;
+						contador = app.frameCount;
+						System.out.println("Quieto mi so");
+						log.conMediaMundo--;
 				}
 				if (o instanceof Taza) {
-					vel.add(ace);
+					vel = new PVector(5,5);
+					acelerado = true;
+					contador = app.frameCount;
+					log.conCafeMundo--;
 
 				}
 				if (o instanceof Erizo) {
-					vel.add(desace);
-
+					vel = new PVector(1,1);
+					ralentizado = true;
+					contador = app.frameCount;
+					log.conVenenoMundo--;
 				}
 				objetos.remove(o);
 			}
@@ -155,9 +209,13 @@ public class Personaje extends Thread {
 	public PVector getPos() {
 		return pos;
 	}
+	
+
 
 
 public int getcontadorM() {
 	return contadorM;
 }
+
+
 }

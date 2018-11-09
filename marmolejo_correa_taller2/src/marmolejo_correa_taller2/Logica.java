@@ -13,7 +13,7 @@ public class Logica {
 
 	private PApplet app;
 	private PVector pos;
-	private int conTankMundo, conCafeMundo, conGorraMundo, conVenenoMundo, conMediaMundo;
+	int conTankMundo, conCafeMundo, conGorraMundo, conVenenoMundo, conMediaMundo;
 	private PFont font1;
 	private PFont font2;
 	private PImage play, play2, media, barraCafe, barraGorra, barraMedia, barraVeneno, cafe, fondo, ganaste, gorra,
@@ -51,7 +51,7 @@ public class Logica {
 		play = app.loadImage("play.png");
 		play2 = app.loadImage("play2.png");
 
-		per = new Personaje(app);
+		per = new Personaje(app, this);
 
 		enemigos = new ArrayList<Enemigo>();
 		objetos = new LinkedList<Objeto>();
@@ -137,8 +137,8 @@ public class Logica {
 			}
 			}
 
-			if (app.frameCount % 60 == 0 && conTankMundo < 3) { // Modifique la condicion para que sea conTankMundo < 3
-																// que es mejor :v, de resto ya las creaba normal
+			if (app.frameCount % 60 == 0 && conTankMundo != 3) { 
+																
 				objetos.add(new Tanque(app));
 				conTankMundo++;
 			}
@@ -162,7 +162,7 @@ public class Logica {
 				conGorraMundo++;
 			}
 
-			if (app.frameCount % 800 == 0 && conMediaMundo != 1) {
+			if (app.frameCount % 300 == 0 && conMediaMundo != 1) {
 				objetos.add(new Calcetin(app));
 				conMediaMundo++;
 			}
@@ -184,6 +184,7 @@ public class Logica {
 				per.validarRecoger(objetos);
 				for (int i = 0; i < enemigos.size(); i++) {
 					enemigos.get(i).validarRecoger(objetos);
+					
 				}
 				if (s ==30) {
 					pantalla ++;
