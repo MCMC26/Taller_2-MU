@@ -21,6 +21,7 @@ public class Personaje extends Thread {
 	private PImage Mike;
 	private boolean vivo;
 	private boolean soltar = true;
+	private boolean escudo = false;
 	private boolean detenido,acelerado,ralentizado = false;
 	private boolean arriba, abajo, izquierda, derecha, diagonal1 = false;
 	private Logica log;
@@ -117,6 +118,15 @@ public class Personaje extends Thread {
 			app.textSize(32);
 			app.text("RALENTIZADO", 135, 30);
 		}
+		if(escudo == true) {
+			app.fill(50, 50, 255);
+			app.noStroke();
+			app.rect(635, 16, 180, 35,15);
+			app.fill(255);
+			app.textSize(32);
+			app.text("PROTEGIDO", 700, 30);
+		}
+		
 	}
 
 	public void mover() {
@@ -164,10 +174,6 @@ public class Personaje extends Thread {
 
 	}
 
-	public void validarChoque() {
-
-	}
-
 	public void validarRecoger(LinkedList<Objeto> objs) {
 		LinkedList<Objeto> objetos = objs;
 		for (int i = objetos.size() - 1; i >= 0; i--) {
@@ -201,6 +207,11 @@ public class Personaje extends Thread {
 					contador = app.frameCount;
 					log.conVenenoMundo--;
 				}
+				
+				if (o instanceof Gorra) {
+					escudo = true;
+					log.conGorraMundo--;
+				}
 				objetos.remove(o);
 			}
 		}
@@ -215,6 +226,16 @@ public class Personaje extends Thread {
 
 public int getcontadorM() {
 	return contadorM;
+}
+
+public void setContadorM(int c) {
+	contadorM = c;
+}
+public boolean getEscudo() {
+	return escudo;
+}
+public void setEscudo(boolean e) {
+	escudo = e;
 }
 
 

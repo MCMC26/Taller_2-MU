@@ -194,8 +194,14 @@ public class Logica {
 			break;
 		case 3:
 			app.image(score, 0, 0);
-			if (per.getcontadorM()==10 ) {
+			if (per.getcontadorM()>=10 ) {
 				app.image(ganaste, 532, 249);
+				app.image(pgritos, 523, 361);	
+				app.textFont(font1);
+				app.textSize(25);
+				app.fill(226,173,96);
+				
+				app.text(per.getcontadorM() +"x1000 = " + per.getcontadorM()+"000 ", 604, 397);
 				}else {
 					app.image(perdiste, 532, 238);	
 					app.image(pgritos, 523, 361);	

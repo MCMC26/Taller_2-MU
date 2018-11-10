@@ -13,6 +13,7 @@ public class Enemigo extends Thread {
 	private int tam;
 	private PVector vel;
 	private int contadorS;
+	private int contadorAtacar;
 	private PImage Sully;
 	private boolean vivo;
 	private Logica log;
@@ -20,6 +21,7 @@ public class Enemigo extends Thread {
 	public Enemigo(PApplet app, Logica log) {
 		this.app = app;
 		this.log = log;
+		contadorAtacar = 0;
 		pos = new PVector(app.random(0, app.width / 2), app.random(0, app.height / 2));
 		vel = new PVector(2, 2);
 		Sully = app.loadImage("Sully.png");
@@ -32,6 +34,8 @@ public class Enemigo extends Thread {
 
 			// vivo = false;
 			// }else {
+			validarChoque();
+			contadorAtacar++;
 			try {
 				sleep(20);
 				mover();
@@ -62,7 +66,7 @@ public class Enemigo extends Thread {
 				if ((PApplet.dist(pos.x, pos.y, log.getPer().getPos().x, log.getPer().getPos().y) < 200)) {
 					vel = PVector.sub(log.getPer().getPos(), pos);
 					vel.rotate(180);
-				//	vel.mult(2);
+					vel.mult(0.5f);
 					vel.normalize();
 					pos.add(vel);
 				//Si no se cumple lo anterior entonces los enemigos irán por los tanques que vean
@@ -104,7 +108,38 @@ public class Enemigo extends Thread {
 	
 
 	public void validarChoque() {
-
+		Personaje p = log.getPer();
+		if(app.dist(p.getPos().x, p.getPos().y, pos.x, pos.y) < 87 && contadorAtacar > 60 && p.getEscudo()==false) {
+			if(p.getcontadorM() < contadorS && p.getcontadorM()>=1) {
+				p.setContadorM(p.getcontadorM()-1);
+				contadorAtacar = 0;
+				contadorS++;
+				System.out.println("funciona");
+			} else if(p.getcontadorM() > contadorS && contadorS>=1) {
+				p.setContadorM(p.getcontadorM()+1);
+				contadorAtacar = 0;
+				contadorS--;
+				System.out.println("funciona");
+			}
+			
+		}
+		
+			if(app.dist(p.getPos().x, p.getPos().y, pos.x, pos.y) < 87 && contadorAtacar > 60 && p.getEscudo()==true) {
+				if(p.getcontadorM() < contadorS && p.getcontadorM()>=1) {
+					p.setEscudo(false);
+					contadorAtacar = 0;
+					
+				} else if(p.getcontadorM() > contadorS && contadorS>=1) {
+					p.setContadorM(p.getcontadorM()+1);
+					contadorAtacar = 0;
+					contadorS--;
+					System.out.println("funciona");
+				}
+				
+			}
+			
+			
+		
 	}
 
 	public void validarRecoger(LinkedList<Objeto> objs) {
@@ -137,6 +172,8 @@ public class Enemigo extends Thread {
 					vel.mult(0.5f);
 					log.conVenenoMundo--;
 				}
+				
+				
 				objetos.remove(o);
 			}
 		}
