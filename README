@@ -1,0 +1,82 @@
+# Taller 2 DCA - Julián David Correa Gutierrez - María Camila Marmolejo
+
+## Clase Main
+### Esta clase presenta los metodos principales para la ejecución del programa
+
+Metodos:
+**settings()**
+Controla el tamaño de la pantalla
+**setup()**
+Presenta las acciones que solo se ejecutan una vez
+**draw()**
+Se ejecuta varias veces para pintar las figuras en la interfaz
+**mousePressed()**
+Presenta las acciones cuando el un boton del mouse está siendo presionado
+**mouseClicked()**
+Presenta las acciones cuando se ha hecho click
+**keyPressed()**
+Presenta las acciones cuando se usa el teclado
+
+## Clase Logica
+### Esta clase presenta métodos que hacen referencia a la lógica principal del proyecto
+
+Metodos:
+**pintar()**
+Se ejecuta varias veces para pintar las figuras en la interfaz
+**mouse()**
+Se ejecuta las veces que se interactúe con el mouse
+**tecla()**
+Se ejecuta cuando se hace uso de lsa teclas del teclado.
+
+## Clase Personaje
+### Esta clase presenta métodos que se utilizan para controlar al personaje del usuario.
+
+Metodos:
+**run()**
+Ejecuta el hilo que hace los procesos relacionados a las acciones del personaje
+**pintar()**
+Se ejecuta varias veces para pintar el personaje
+**mover()**
+Se ejecuta para mover el personaje
+**validarChoque()**
+Se ejecuta para validar si el personaje chocó con un enemigo
+**validarRecoger()**
+Se ejecuta para validar si el personaje recogió un objeto
+**getPos**
+Se ejecuta para recibir la posición del personaje
+
+## Clase Enemigo
+### Esta clase presenta métodos que se utilizan para controlar a los enemigos del juego.
+
+Metodos:
+**run()**
+Ejecuta el hilo que hace los procesos relacionados a las acciones de los enemigos.
+**pintar()**
+Se ejecuta varias veces para pintar los enemigos.
+**mover()**
+Se ejecuta para mover los enemigos
+**validarChoque()**
+Se ejecuta para validar si el personaje chocó con el personaje del usuario
+**validarRecoger()**
+Se ejecuta para validar si el personaje recogió un objeto
+**getPos**
+Se ejecuta para recibir la posición del enemigo.
+
+## Clase Objeto
+### Esta clase presenta métodos que se utilizan para controlar cuando aparecen y desaparecen los objetos del lienzo.
+
+Metodos:
+**pintar()**
+Este mtodo pinta los objetos en el lienzo
+**morir()**
+Este metodo hace que desaparezca cierto objeto
+
+## Clases Tanque, Calcetín, Erizo, Taza, Gorra
+### Estas clases heredean de objeto, cada una de ellas es un power Up p Power down del juego
+
+Metodos:
+**pintar()**
+Este mtodo pinta los objetos en el lienzo
+**morir()**
+Este metodo hace que desaparezca cierto objeto
+
